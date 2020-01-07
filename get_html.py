@@ -6,13 +6,6 @@ import os
 
 PATH_TO_HTML_FOLDER = "./html-data"
 
-def read_html_from_file(path_to_file):
-    f = codecs.open(path_to_file, 'r', 'utf-8')
-    print("reading file {}...".format(path_to_file))
-    string = f.read()
-    f.close()
-    return string
-
 
 """Removes useless beginning and end of html file. Uses HTML Comments as Orientation
 
@@ -47,6 +40,31 @@ def get_important_part_of_html(complete_html, filename, string_parameter=""):
     return filename
 
 
+"""Reads UTF-8 HTML file from disk and returns it as String. 
+
+Args:
+    html_to_parse (str): Path to the file
+
+Returns:
+    str: content of file as string
+"""
+def read_html_from_file(path_to_file):
+    f = codecs.open(path_to_file, 'r', 'utf-8')
+    print("reading file {}...".format(path_to_file))
+    string = f.read()
+    f.close()
+    return string
+
+
+"""Writes String to  UTF-8 HTML file
+
+Args:
+    string_to_write (str): String to be saved
+    filename (str): Path to the file
+
+Returns:
+    str: content of file as string
+"""
 def write_string_to_html_file(string_to_write, filename):
     text_file = codecs.open(filename, "w", "utf-8-sig")
     n = text_file.write(string_to_write)
