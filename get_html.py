@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 import codecs
-import requests
+import os
 import uuid
 from datetime import datetime
-import os
+
+import requests
 
 PATH_TO_HTML_FOLDER = "./html-data"
 

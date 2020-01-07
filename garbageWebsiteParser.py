@@ -1,7 +1,5 @@
-import sys
-from lxml import etree
+# -*- coding: utf-8 -*-
 import lxml.html as LH
-
 
 german_months = {
     "Januar": 1,
@@ -17,6 +15,7 @@ german_months = {
     "November": 11,
     "Dezember": 12,
 }
+
 
 class CalendarEvent:
   def __init__(self, name, year, month, day):

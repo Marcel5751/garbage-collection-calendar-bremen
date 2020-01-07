@@ -1,13 +1,15 @@
-from icalendar import Calendar, Event
-from datetime import datetime
-import pytz
+# -*- coding: utf-8 -*-
 import os
-from icalendar import vCalAddress, vText
+from datetime import datetime
+
+import pytz
+from icalendar import Calendar, Event
+from icalendar import vText
 
 PATH_TO_OUTPUT_FOLDER = "./ics-data"
 
+# following tutorial from https://icalendar.readthedocs.io/en/latest/usage.html
 def create_ical_file(list_of_events, strasse, hausnummer):
-    # following tutorial from https://icalendar.readthedocs.io/en/latest/usage.html
     cal = Calendar()
 
     # Some properties are required to be compliant:
