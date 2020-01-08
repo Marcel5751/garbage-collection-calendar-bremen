@@ -39,6 +39,42 @@ def create_ical_file(list_of_events, strasse, hausnummer):
     return save_ical_file(cal_as_ical, get_filename(strasse, hausnummer))
 
 
+def create_cal_events(list_of_events, strasse, hausnummer):
+    """ Creates iCal events file from a list of Events
+
+    Args:
+        list_of_events (list): List of Calender Events to be converted into iCal Format
+        strasse (str): Street name
+        hausnummer (str): Street number
+
+    Returns:
+        list: list of icalendar Events
+    """
+    list_of_ical_events = []
+
+    for calendarEvent in list_of_events:
+        event = Event()
+        event = create_ical_event_from_calendar_event(event, calendarEvent, 8, 10)
+
+        # Automatic encoding is not yet implemented for parameter values, so you must use the ‘v*’ types you can import from the icalendar package (they’re defined in icalendar.prop):
+        event['location'] = vText('{} {}, Bremen'.format(strasse, hausnummer))
+
+        # TODO uid exaclty according to specification https://www.kanzaki.com/docs/ical/uid.html
+        event['uid'] = event['dtstart'].to_ical()
+        event.add('priority', 5)
+        list_of_ical_events.append(event)
+
+    return list_of_ical_events
+
+
+def create_ical_event_from_calendar_event(event, calendar_event, starttime, endtime):
+    event.add('summary', calendar_event.name)
+    event.add('dtstart', datetime(calendar_event.year, calendar_event.month, calendar_event.day, starttime, 0, 0, tzinfo=pytz.utc))
+    event.add('dtend', datetime(calendar_event.year, calendar_event.month, calendar_event.day, endtime, 0, 0, tzinfo=pytz.utc))
+    event.add('dtstamp', datetime(calendar_event.year, calendar_event.month, calendar_event.day, starttime, 0, 0, tzinfo=pytz.utc))
+    return event
+
+
 def create_folder_if_not_exists():
     if not os.path.isdir(PATH_TO_OUTPUT_FOLDER):
         os.makedirs(PATH_TO_OUTPUT_FOLDER)
@@ -55,25 +91,3 @@ def save_ical_file(ical, filename):
     f.write(ical)
     f.close()
     return filename
-
-
-def create_cal_events(list_of_events, strasse, hausnummer):
-    list_of_ical_events = []
-
-    for calendarEvent in list_of_events:
-        event = Event()
-        event.add('summary', calendarEvent.name)
-        event.add('dtstart', datetime(calendarEvent.year, calendarEvent.month, calendarEvent.day, 8, 0, 0, tzinfo=pytz.utc))
-        event.add('dtend', datetime(calendarEvent.year, calendarEvent.month, calendarEvent.day, 10, 0, 0, tzinfo=pytz.utc))
-        event.add('dtstamp', datetime(calendarEvent.year, calendarEvent.month, calendarEvent.day, 8, 0, 0, tzinfo=pytz.utc))
-
-        # Automatic encoding is not yet implemented for parameter values, so you must use the ‘v*’ types you can import from the icalendar package (they’re defined in icalendar.prop):
-        event['location'] = vText('{} {}, Bremen'.format(strasse, hausnummer))
-
-        # TODO uid exaclty according to specification https://www.kanzaki.com/docs/ical/uid.html
-        event['uid'] = event['dtstart'].to_ical()
-        event.add('priority', 5)
-        list_of_ical_events.append(event)
-
-    return list_of_ical_events
-
