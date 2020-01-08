@@ -9,21 +9,18 @@ import requests
 PATH_TO_HTML_FOLDER = "./html-data"
 
 
-"""Removes useless beginning and end of html file. Uses HTML Comments as Orientation
+def get_important_part_of_html(filename, html_as_string):
+    """Removes useless beginning and end of html file. Uses HTML Comments as Orientation
 
-Args:
-    html_to_parse (str): Path to the file to be parsed
+    Args:
+        filename (str): Path to where reduced file should be saved
+        html_as_string (str): Content of File
 
-Returns:
-    list: a list of calendar Events
-"""
-def get_important_part_of_html(complete_html, filename, string_parameter=""):
-    if string_parameter is "":
-        html_as_string = read_html_from_file(complete_html)
-    else:
-        html_as_string = string_parameter
+    Returns:
+        list: a list of calendar Events
+    """
 
-    if (not "Kontroll-Abschnitt" in html_as_string):
+    if not "Kontroll-Abschnitt" in html_as_string:
         # raise ValueError("Keine gültige Adresse in Bremen!")
         print("Not a valid adress in Bremen!")
         return "Not a valid adress in Bremen!"
@@ -42,15 +39,15 @@ def get_important_part_of_html(complete_html, filename, string_parameter=""):
     return filename
 
 
-"""Reads UTF-8 HTML file from disk and returns it as String. 
-
-Args:
-    html_to_parse (str): Path to the file
-
-Returns:
-    str: content of file as string
-"""
 def read_html_from_file(path_to_file):
+    """Reads UTF-8 HTML file from disk and returns it as String.
+
+    Args:
+        path_to_file (str): Path to the file
+
+    Returns:
+        str: content of file as string
+    """
     f = codecs.open(path_to_file, 'r', 'utf-8')
     print("reading file {}...".format(path_to_file))
     string = f.read()
@@ -58,16 +55,16 @@ def read_html_from_file(path_to_file):
     return string
 
 
-"""Writes String to  UTF-8 HTML file
-
-Args:
-    string_to_write (str): String to be saved
-    filename (str): Path to the file
-
-Returns:
-    str: content of file as string
-"""
 def write_string_to_html_file(string_to_write, filename):
+    """Writes String to  UTF-8 HTML file.
+
+    Args:
+        string_to_write (str): String to be saved
+        filename (str): Path to the file
+
+    Returns:
+        str: content of file as string
+    """
     text_file = codecs.open(filename, "w", "utf-8-sig")
     n = text_file.write(string_to_write)
     text_file.close()
@@ -75,11 +72,19 @@ def write_string_to_html_file(string_to_write, filename):
 
 
 def download_html_file_from_url(url_to_download):
+    """Downloads content of url and saves it to a html file with a unique filename
+
+    Args:
+        url_to_download (str): Url as string
+
+    Returns:
+        str: filename
+    """
     html_download = requests.get(url_to_download).text
     filename = PATH_TO_HTML_FOLDER + "/" + get_unique_name_for_html_file()
     if not os.path.exists(PATH_TO_HTML_FOLDER):
         os.makedirs(PATH_TO_HTML_FOLDER)
-    return get_important_part_of_html("wasd", filename, html_download)
+    return get_important_part_of_html(filename, html_download)
 
 
 def get_unique_name_for_html_file():

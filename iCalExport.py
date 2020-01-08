@@ -8,8 +8,19 @@ from icalendar import vText
 
 PATH_TO_OUTPUT_FOLDER = "./ics-data"
 
-# following tutorial from https://icalendar.readthedocs.io/en/latest/usage.html
+
 def create_ical_file(list_of_events, strasse, hausnummer):
+    """ Creates an iCal file from a list of Events
+    Inspired by tutorial from https://icalendar.readthedocs.io/en/latest/usage.html
+
+    Args:
+        list_of_events (list): List of Calender Events to be converted into iCal Format
+        strasse (str): Street name
+        hausnummer (str): Street number
+
+    Returns:
+        str: path to created iCal file
+    """
     cal = Calendar()
 
     # Some properties are required to be compliant:
@@ -22,18 +33,28 @@ def create_ical_file(list_of_events, strasse, hausnummer):
         # Add the event to the calendar:
         cal.add_component(evnt)
 
-    now = datetime.now()
-
+    cal_as_ical = cal.to_ical()
+    create_folder_if_not_exists()
     # Write iCal file to disk
-    # if not os.path.exists(PATH_TO_OUTPUT_FOLDER):
+    return save_ical_file(cal_as_ical, get_filename(strasse, hausnummer))
+
+
+def create_folder_if_not_exists():
     if not os.path.isdir(PATH_TO_OUTPUT_FOLDER):
         os.makedirs(PATH_TO_OUTPUT_FOLDER)
 
-    filename = PATH_TO_OUTPUT_FOLDER + '/' + 'Abfuhrkalender_{}_{}_.ics'.format(strasse + hausnummer, now.strftime("%Y%m%d"))
+
+def get_filename(strasse, hausnummer):
+    now = datetime.now()
+    return PATH_TO_OUTPUT_FOLDER + '/' + 'Abfuhrkalender_{}_{}_.ics'.format(strasse + hausnummer, now.strftime("%Y%m%d"))
+
+
+def save_ical_file(ical, filename):
     f = open(filename, 'wb')
     print(str(f))
-    f.write(cal.to_ical())
+    f.write(ical)
     f.close()
+    return filename
 
 
 def create_cal_events(list_of_events, strasse, hausnummer):
@@ -49,7 +70,6 @@ def create_cal_events(list_of_events, strasse, hausnummer):
         # Automatic encoding is not yet implemented for parameter values, so you must use the ‘v*’ types you can import from the icalendar package (they’re defined in icalendar.prop):
         event['location'] = vText('{} {}, Bremen'.format(strasse, hausnummer))
 
-        # event['uid'] = '20050115T101010/27346262376@mxm.dk'
         # TODO uid exaclty according to specification https://www.kanzaki.com/docs/ical/uid.html
         event['uid'] = event['dtstart'].to_ical()
         event.add('priority', 5)

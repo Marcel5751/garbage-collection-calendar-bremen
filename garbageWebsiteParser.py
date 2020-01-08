@@ -28,15 +28,15 @@ class CalendarEvent:
     return 'CalendarEvent(name=' + self.name + ', year=' + str(self.year) + ', month=' + str(self.month) + ', day=' + str(self.day) + ')'
 
 
-"""Reads the html and generates a list of calendar events
-
-Args:
-    html_to_parse (str): Path to the file to be parsed
-
-Returns:
-    list: a list of calendar Events
-"""
 def getCalendarEvent(path_to_html_file):
+    """Reads the html and generates a list of calendar events
+
+    Args:
+        path_to_html_file (str): Path to the file to be parsed
+
+    Returns:
+        list: a list of calendar Events
+    """
 
     tree = LH.parse(path_to_html_file) # type lxml.etree._ElementTree
 
@@ -95,6 +95,7 @@ def getCalendarEvent(path_to_html_file):
 
 
 # handle case where there is a prefix of (sa) before the date, eg. (Sa) 29.12. Restm. / Bioabf.
+# Remove the Sa because we do not need it
 def remove_sa(day):
     if day.find("(Sa)") != -1:
         return day.split(")")[1]
