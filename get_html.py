@@ -5,6 +5,7 @@ import uuid
 from datetime import datetime
 
 import requests
+import main
 
 PATH_TO_HTML_FOLDER = "./html-data"
 
@@ -22,8 +23,7 @@ def get_important_part_of_html(filename, html_as_string):
 
     if not "Kontroll-Abschnitt" in html_as_string:
         # raise ValueError("Keine gültige Adresse in Bremen!")
-        print("Not a valid adress in Bremen!")
-        return "Not a valid adress in Bremen!"
+        return main.NOT_A_VALID_ADDRESS_ERROR_MESSAGE
 
     # Start Inhalt Termine Jahr 2018
     substring_to_spilt_at = "Start Inhalt Termine Jahr 2018 -->"
