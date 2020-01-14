@@ -5,13 +5,16 @@
 
 ## How to run
  - Prerequisite: Python 3.7 installed
- - run pip install -r Requirements.txt
- - run script with "python main.py strassenname hausnummer
- - it is also possible to specify the years for which the calendar entries should be garhered
+ - run `pip install -r Requirements.txt`
+ - run script with `python garbage-calendar-cli.py Testweg 777`
+ - it is also possible to specify the range of years for which the calendar entries should be gathered: 
+ `python garbage-calendar-cli.py Testweg 777 -start 2018 -end 2020`
+ - The iCal file will be stored in the ics-data/ folder
 
 
 ## About the Project
- - The Code consists of 3 main components:
-	 - get_html.py: downloads the html file
-	 - garbageWebsiteParser.oy: parse html
-	 - iCalExport.py: create ics file 
+ - The Code consists of 4 main components:
+    - CLI
+	- get_html.py: downloads the html file
+	- garbageWebsiteParser.oy: parse html
+	- iCalExport.py: create ics file

@@ -7,6 +7,7 @@ from icalendar import Calendar, Event
 from icalendar import vText
 
 PATH_TO_OUTPUT_FOLDER = "./ics-data"
+total_number_of_events = 0
 
 
 def create_ical_file(list_of_events, strasse, hausnummer):
@@ -27,7 +28,9 @@ def create_ical_file(list_of_events, strasse, hausnummer):
     cal.add('prodid', '-//My calendar product//mxm.dk//')
     cal.add('version', '2.0')
 
-    # We need at least one subcomponent for a calendar to be compliant:
+    global total_number_of_events
+    total_number_of_events = len(list_of_events)
+
     all_ical_events = create_cal_events(list_of_events, strasse, hausnummer)
     for evnt in all_ical_events:
         # Add the event to the calendar:
@@ -69,9 +72,12 @@ def create_cal_events(list_of_events, strasse, hausnummer):
 
 def create_ical_event_from_calendar_event(event, calendar_event, starttime, endtime):
     event.add('summary', calendar_event.name)
-    event.add('dtstart', datetime(calendar_event.year, calendar_event.month, calendar_event.day, starttime, 0, 0, tzinfo=pytz.utc))
-    event.add('dtend', datetime(calendar_event.year, calendar_event.month, calendar_event.day, endtime, 0, 0, tzinfo=pytz.utc))
-    event.add('dtstamp', datetime(calendar_event.year, calendar_event.month, calendar_event.day, starttime, 0, 0, tzinfo=pytz.utc))
+    event.add('dtstart',
+              datetime(calendar_event.year, calendar_event.month, calendar_event.day, starttime, 0, 0, tzinfo=pytz.utc))
+    event.add('dtend',
+              datetime(calendar_event.year, calendar_event.month, calendar_event.day, endtime, 0, 0, tzinfo=pytz.utc))
+    event.add('dtstamp',
+              datetime(calendar_event.year, calendar_event.month, calendar_event.day, starttime, 0, 0, tzinfo=pytz.utc))
     return event
 
 
@@ -82,12 +88,13 @@ def create_folder_if_not_exists():
 
 def get_filename(strasse, hausnummer):
     now = datetime.now()
-    return PATH_TO_OUTPUT_FOLDER + '/' + 'Abfuhrkalender_{}_{}_.ics'.format(strasse + hausnummer, now.strftime("%Y%m%d"))
+    return PATH_TO_OUTPUT_FOLDER + '/' + 'Abfuhrkalender_{}_{}_.ics'.format(strasse + hausnummer,
+                                                                            now.strftime("%Y%m%d"))
 
 
 def save_ical_file(ical, filename):
     f = open(filename, 'wb')
-    print(str(f))
+    print("{} Calendar Events successfully saved to {}".format(total_number_of_events, filename))
     f.write(ical)
     f.close()
     return filename
