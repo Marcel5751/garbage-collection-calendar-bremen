@@ -52,9 +52,9 @@ def getCalendarEvent(path_to_html_file):
             if type(elem) is LH.HtmlElement: # dont parse HtmlComment
                 oneMonth = elem.text_content()
                 stringWithout = '"'.join(oneMonth.split('\n')[:1])
-                print("#####")
-                print(stringWithout)
-                print("#####")
+                # print("#####")
+                # print(stringWithout)
+                # print("#####")
                 if stringWithout == "" or stringWithout == "\r": # handle case of empty string
                     pass
                     # if any(month in stringWithout for month in german_months.values()):
@@ -65,24 +65,24 @@ def getCalendarEvent(path_to_html_file):
                     splitted_string = stringWithout.split(' ', 1)
                     month = splitted_string[0]
                     currentMonth = german_months.get(month)
-                    print(str(month))
+                    # print(str(month))
                     year = splitted_string[1]
-                    print("year")
-                    print(year)
+                    # print("year")
+                    # print(year)
                     only_year = year[:4]
                     currentYear = int(only_year)
-                    print(str(only_year))
+                    # print(str(only_year))
                 elif stringWithout != "" and not any(month in stringWithout for month in german_months.keys()) and not "\\r\\n\\r\\n" in stringWithout and not "\\r\\n\\t\\t" in stringWithout: # '\\r\\n\\r\\n' \r\n\r\n
                     # parse 19.02. Restmüll / Bioabfall
                     split_string = stringWithout.strip().split('.', 2)
-                    print("split_string")
-                    print(split_string)
+                    # print("split_string")
+                    # print(split_string)
                     #['22', '08', '\xa0Restmüll / Bioabfall']
                     day = remove_sa(split_string[0])
-                    print(day)
+                    # print(day)
                     if day.find("  ") != -1:
                         day = day.split("  ")[1]
-                    print(day)
+                    # print(day)
                     month = split_string[1]
                     currentMonth = month
                     title = split_string[2]

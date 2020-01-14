@@ -7,6 +7,7 @@
  - Prerequisite: Python 3.7 installed
  - run pip install -r Requirements.txt
  - run script with "python main.py strassenname hausnummer
+ - it is also possible to specify the years for which the calendar entries should be garhered
 
 
 ## About the Project
