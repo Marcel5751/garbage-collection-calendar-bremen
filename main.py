@@ -7,14 +7,14 @@ import garbageWebsiteParser
 import get_html
 import iCalExport
 
-
-ABFUEHR_KALENDER_URL = "http://213.168.213.236/bremereb/bify/bify.jsp?strasse={}&hausnummer={}"
+BASE_URL = "http://213.168.213.236/bremereb/bify/bify.jsp"
+ABFUEHR_KALENDER_URL = BASE_URL + "?strasse={}&hausnummer={}"
 NOT_A_VALID_ADDRESS_ERROR_MESSAGE = "Not a valid address in Bremen!"
 
 
 def is_site_online():
     try:
-        urllib.request.urlopen("http://213.168.213.236/bremereb/bify/bify.jsp").getcode()
+        urllib.request.urlopen(BASE_URL).getcode()
         print("Abfallkalender-Website online...")
         return True
     except URLError:

@@ -4,6 +4,7 @@ import requests
 import codecs
 
 import get_html
+import main
 
 
 class TestHTMLMethods(unittest.TestCase):
@@ -24,7 +25,7 @@ class TestHTMLMethods(unittest.TestCase):
         self.assertEqual(7939, len(read_html_from_file("./testing/test_result.html")))
 
     def test_download(self):
-        url_to_download = "http://213.168.213.236/bremereb/bify/bify.jsp?strasse=XXX-Testweg&hausnummer=777"
+        url_to_download = main.ABFUEHR_KALENDER_URL.format("XXX-Testweg", 777)
         filename = "./testing/full_test_example.html"
         html_download = requests.get(url_to_download).text
         get_html.write_string_to_html_file(html_download, filename)

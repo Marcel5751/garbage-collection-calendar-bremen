@@ -15,7 +15,13 @@
 
 ## About the Project
  - The Code consists of 4 main components:
-    - CLI
+    - CLI Argument parser
 	- get_html.py: downloads the html file
 	- garbageWebsiteParser.oy: parse html
 	- iCalExport.py: create ics file
+
+## Future TODOs
+ - Create Website with GUI wrapper
+ - make caledar event time configurable
+ - proper documentation (using sphinx)
+ - more tests
