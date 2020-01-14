@@ -29,7 +29,7 @@ class CalendarEvent:
             self.month) + ', day=' + str(self.day) + ')'
 
 
-def getCalendarEvent(path_to_html_file, start_year, end_year):
+def get_calendar_events(path_to_html_file):
     """Reads the html and generates a list of calendar events
 
     Args:
@@ -81,8 +81,7 @@ def getCalendarEvent(path_to_html_file, start_year, end_year):
                     calEvent = CalendarEvent(title, currentYear, int(currentMonth), int(day))
                     list_of_cal_events.append(calEvent)
 
-    # print_all_cal_events(list_of_cal_events)
-    return filter_list(list_of_cal_events, start_year, end_year)
+    return list_of_cal_events
 
 
 # handle case where there is a prefix of (sa) before the date, eg. (Sa) 29.12. Restm. / Bioabf.
