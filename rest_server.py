@@ -1,7 +1,5 @@
-# from flask import Flask
-# from flask import request
+import main
 
-# import flask
 import json
 from datetime import datetime
 
@@ -11,7 +9,6 @@ from flask import request
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-import main
 
 @app.route('/', methods=['GET'])
 def home():
@@ -26,9 +23,9 @@ def api_all():
         msg="test_tmsg",
     ))
 
+
 # A route to return all of the available entries in our catalog.
 @app.route('/api/garbageCalendar', methods=['GET'])
-
 def getGarbageCalendar():
     if 'street' in request.args:
         street = str(request.args['street'])
@@ -53,8 +50,8 @@ def getGarbageCalendar():
         msg="Created " + str(filename),
     ))
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     flask_options = dict(
         host='0.0.0.0',
         debug=True,

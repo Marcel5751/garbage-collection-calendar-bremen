@@ -1,3 +1,4 @@
+flask
 chardet
 requests
 lxml
