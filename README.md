@@ -25,3 +25,13 @@
  - make caledar event time configurable
  - proper documentation (using sphinx)
  - more tests
+ 
+ 
+ Add rest API
+ 
+ Everythin that is printed in cli version:
+ collect and return at once?
+ print as debug log but only return result text
+ 
+ 
+ 
