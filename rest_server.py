@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 
 import flask
-from flask import request, make_response
+from flask import request, make_response, send_from_directory
 
 import main
 
@@ -77,6 +77,12 @@ def get_garbage_calendar():
     resp = make_response(return_json, resultDTO.status_code)
     resp.headers.extend(headers or {})
     return resp
+
+
+@app.route('/api/garbageCalendar/<filename>', methods=['GET'])
+def get_file(filename):
+    """Download the .ics file."""
+    return send_from_directory("./ics-data", filename, as_attachment=True)
 
 
 if __name__ == '__main__':
