@@ -35,3 +35,9 @@
  
  
  
+ Possible outputs:
+ Server unreachable: 404
+ Invalid Adress: 403 no content
+ successfull : 200 okay 
+ 
+ 

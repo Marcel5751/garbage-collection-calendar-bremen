@@ -1,10 +1,10 @@
-import main
-
 import json
 from datetime import datetime
 
 import flask
-from flask import request
+from flask import request, make_response
+
+import main
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -26,29 +26,57 @@ def api_all():
 
 # A route to return all of the available entries in our catalog.
 @app.route('/api/garbageCalendar', methods=['GET'])
-def getGarbageCalendar():
-    if 'street' in request.args:
-        street = str(request.args['street'])
+def get_garbage_calendar():
+    error_message = ""
+    if request.args:
+        if 'street' in request.args:
+            street = str(request.args['street'])
+        else:
+            error_message = "Error: No street field provided. Please specify a street."
+        if 'number' in request.args:
+            number = str(request.args['number'])
+        else:
+            error_message = "Error: No number field provided. Please specify a number."
+        if 'start' in request.args:
+            start = int(request.args['start'])
+        else:
+            error_message = "Error: No start year provided."
+        if 'end' in request.args:
+            end = int(request.args['end'])
+        else:
+            error_message = "Error: No end year provided."
     else:
-        return "Error: No street field provided. Please specify a street."
-    if 'number' in request.args:
-        number = int(request.args['number'])
-    else:
-        return "Error: No number field provided. Please specify a number."
+        error_message = "Error: No query parameters received"
+
+    if error_message:
+        return_json = json.dumps(dict(
+            status=400,
+            msg=error_message,
+        ))
+        resp = make_response(return_json, 400)
+        headers = {'Content-Type': 'text/json'}
+        resp.headers.extend(headers or {})
+        return resp
 
     args = {
         'number': number,
         'street': street,
-        'start': datetime.now,
-        'end': datetime.now
+        'start': start,
+        'end': end
     }
 
-    filename = main.garbage_calendar(args)
+    resultDTO = main.get_garbage_calendar(args)
 
-    return json.dumps(dict(
-        status="success",
-        msg="Created " + str(filename),
+    return_json = json.dumps(dict(
+        status=resultDTO.status_code,
+        msg=resultDTO.result_messages,
     ))
+
+    headers = {'Content-Type': 'text/json'}
+    # status_code = flask.Response(status=200, property = return_json)
+    resp = make_response(return_json, resultDTO.status_code)
+    resp.headers.extend(headers or {})
+    return resp
 
 
 if __name__ == '__main__':

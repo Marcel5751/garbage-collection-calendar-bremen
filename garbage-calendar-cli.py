@@ -39,7 +39,7 @@ def command_line_runner():
     if args['end']:
         pass  # TODO verify
 
-    main.garbage_calendar(args)
+    main.get_garbage_calendar(args)
 
 
 if __name__ == "__main__":
