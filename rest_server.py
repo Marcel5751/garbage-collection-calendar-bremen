@@ -3,11 +3,22 @@ from datetime import datetime
 
 import flask
 from flask import request, make_response, send_from_directory
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import main
+import config_parser
 
 app = flask.Flask(__name__)
+auth = HTTPBasicAuth()
 app.config["DEBUG"] = True
+
+
+@auth.verify_password
+def verify_password(username, password):
+    if username == config_parser.credentials['username'] and \
+            check_password_hash(config_parser.credentials['hashedPassword'], password):
+        return username
 
 
 @app.route('/', methods=['GET'])
@@ -17,6 +28,7 @@ def home():
 
 # A route to return all of the available entries in our catalog.
 @app.route('/api/test', methods=['GET'])
+@auth.login_required
 def api_all():
     return json.dumps(dict(
         status="test_status",
@@ -26,6 +38,7 @@ def api_all():
 
 # A route to return all of the available entries in our catalog.
 @app.route('/api/garbageCalendar', methods=['GET'])
+@auth.login_required
 def get_garbage_calendar():
     error_message = ""
     if request.args:
@@ -80,6 +93,7 @@ def get_garbage_calendar():
 
 
 @app.route('/api/garbageCalendar/<filename>', methods=['GET'])
+@auth.login_required
 def get_file(filename):
     """Download the .ics file."""
     return send_from_directory("./ics-data", filename, as_attachment=True)

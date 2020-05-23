@@ -4,3 +4,4 @@ requests
 lxml
 pytz
 icalendar
+Flask-HTTPAuth
