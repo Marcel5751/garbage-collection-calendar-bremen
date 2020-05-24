@@ -5,6 +5,7 @@ import flask
 from flask import request, make_response, send_from_directory
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_cors import CORS
 
 import main
 import config_parser
@@ -12,6 +13,7 @@ import config_parser
 app = flask.Flask(__name__)
 auth = HTTPBasicAuth()
 app.config["DEBUG"] = True
+CORS(app)
 
 
 @auth.verify_password
@@ -51,11 +53,17 @@ def get_garbage_calendar():
         else:
             error_message = "Error: No number field provided. Please specify a number."
         if 'start' in request.args:
-            start = int(request.args['start'])
+            try:
+                start = int(request.args['start'])
+            except ValueError as e:
+                error_message = "Error parsing start: " + str(e)
         else:
             error_message = "Error: No start year provided."
         if 'end' in request.args:
-            end = int(request.args['end'])
+            try:
+                end = int(request.args['end'])
+            except ValueError as e:
+                error_message = "Error parsing start: " + str(e)
         else:
             error_message = "Error: No end year provided."
     else:
@@ -80,9 +88,11 @@ def get_garbage_calendar():
 
     resultDTO = main.get_garbage_calendar(args)
 
+    #TODO map object to json implicitly
     return_json = json.dumps(dict(
         status=resultDTO.status_code,
         msg=resultDTO.result_messages,
+        result=resultDTO.result,
     ))
 
     headers = {'Content-Type': 'text/json'}
@@ -93,9 +103,12 @@ def get_garbage_calendar():
 
 
 @app.route('/api/garbageCalendar/<filename>', methods=['GET'])
+# @app.route('/api/garbageCalendar/', methods=['GET'])
 @auth.login_required
 def get_file(filename):
     """Download the .ics file."""
+    # if request.args:
+    #     request.args
     return send_from_directory("./ics-data", filename, as_attachment=True)
 
 

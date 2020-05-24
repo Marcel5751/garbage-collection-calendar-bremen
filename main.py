@@ -55,7 +55,8 @@ def get_garbage_calendar(args):
         if path_to_downloaded_html != NOT_A_VALID_ADDRESS_ERROR_MESSAGE:
             list_of_events = garbageWebsiteParser.get_calendar_events(path_to_downloaded_html)
             saved_filename = iCalExport.create_ical_file(list_of_events, street, number)
-            return ResultDTO(200, SUCCESS_MESSAGE, saved_filename)
+            only_filename = saved_filename.split("/")[2]
+            return ResultDTO(200, SUCCESS_MESSAGE, only_filename)
         else:
             print(NOT_A_VALID_ADDRESS_ERROR_MESSAGE)
             return ResultDTO(400, NOT_A_VALID_ADDRESS_ERROR_MESSAGE, None)
