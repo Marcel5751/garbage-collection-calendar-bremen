@@ -14,7 +14,8 @@
 
 
 ## About the Project
- - The Code consists of 4 main components:
+ - The Code consists of 5 main components:
+    - Rest API
     - CLI Argument parser
 	- get_html.py: downloads the html file
 	- garbageWebsiteParser.oy: parse html
@@ -23,6 +24,8 @@
 ## Future TODOs
  - Create Website with GUI wrapper
  - make caledar event time configurable
+   - boolean flag: day before Calendar Event
+   - time (hour:minute)
  - proper documentation (using sphinx)
  - more tests
  
