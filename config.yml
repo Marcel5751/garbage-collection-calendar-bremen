@@ -1,0 +1,7 @@
+auth:
+  username: admin
+  password: 9vENnun3YPzwI0iLZi4R
+  hashedPassword: pbkdf2:sha256:150000$gWnHgdeJ$778d54af56408b434fdd7151f4d8ea88e1ad7525d47326aa70671962e1f654a1
+#  hashedPassword: 150000$JVliH1wi$ccda3567c4c524320ab19b6d4654cc0898c3ee3783a38d2ca3163d359c5faf2a
+  # 150000$JVliH1wi$ccda3567c4c524320ab19b6d4654cc0898c3ee3783a38d2ca3163d359c5faf2a
+  #    print(generate_password_hash("9vENnun3YPzwI0iLZi4R"))
